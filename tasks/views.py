@@ -1,7 +1,9 @@
 from django.shortcuts import render
+from .models import Task
 
 def dashboard(request):
-    return render(request, 'tasks/dashboard.html')
+    tarefas = Task.objects.all()
+    return render(request, 'tasks/dashboard.html', {'tarefas': tarefas})
 
 def login_view(request):
     return render(request, 'tasks/login.html')
