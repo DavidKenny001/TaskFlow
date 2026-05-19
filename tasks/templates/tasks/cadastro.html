@@ -1,5 +1,10 @@
 {% extends 'tasks/base.html' %}
 {% block conteudo %}
     <h2>Cadastro</h2>
-    <p>Formulário de cadastro virá aqui.</p>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Cadastrar</button>
+    </form>
+    <p>Já tem conta? <a href="{% url 'login' %}">Faça login</a></p>
 {% endblock %}

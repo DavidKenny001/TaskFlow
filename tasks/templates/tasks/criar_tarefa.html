@@ -1,5 +1,10 @@
 {% extends 'tasks/base.html' %}
 {% block conteudo %}
     <h2>Nova Tarefa</h2>
-    <p>Formulário de criação de tarefa virá aqui.</p>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar Tarefa</button>
+    </form>
+    <p><a href="{% url 'dashboard' %}">Voltar ao Dashboard</a></p>
 {% endblock %}
