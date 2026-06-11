@@ -1,5 +1,11 @@
 {% extends 'tasks/base.html' %}
 {% block conteudo %}
-    <h2>Detalhe da Tarefa</h2>
-    <p>Informações detalhadas da tarefa virão aqui.</p>
+    <h2>{{ tarefa.titulo }}</h2>
+    <p>{{ tarefa.descricao }}</p>
+    <p>Prazo: {{ tarefa.prazo }}</p>
+    <p>Prioridade: {{ tarefa.get_prioridade_display }}</p>
+    <p>Status: {{ tarefa.get_status_display }}</p>
+    <p>Criada em: {{ tarefa.data_criacao }}</p>
+    <a href="{% url 'editar_tarefa' tarefa.id %}">Editar</a>
+    <a href="{% url 'dashboard' %}">Voltar</a>
 {% endblock %}

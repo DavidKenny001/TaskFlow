@@ -1,20 +1,43 @@
 {% extends 'tasks/base.html' %}
 {% block conteudo %}
-    <h2>Dashboard — Minhas Tarefas</h2>
+    <h2>Minhas Tarefas</h2>
+
+    <a href="{% url 'criar_tarefa' %}" class="btn-nova-tarefa">+ Nova Tarefa</a>
+
+    <form method="GET" class="filtros">
+        <select name="prioridade">
+            <option value="">Todas as Prioridades</option>
+            <option value="baixa" {% if request.GET.prioridade == 'baixa' %}selected{% endif %}>Baixa</option>
+            <option value="media" {% if request.GET.prioridade == 'media' %}selected{% endif %}>Média</option>
+            <option value="alta" {% if request.GET.prioridade == 'alta' %}selected{% endif %}>Alta</option>
+        </select>
+        <select name="status">
+            <option value="">Todos os Status</option>
+            <option value="pendente" {% if request.GET.status == 'pendente' %}selected{% endif %}>Pendente</option>
+            <option value="concluida" {% if request.GET.status == 'concluida' %}selected{% endif %}>Concluída</option>
+        </select>
+        <button type="submit">Filtrar</button>
+    </form>
 
     {% if tarefas %}
         {% for tarefa in tarefas %}
-            <div>
+            <div class="tarefa-card">
                 <h3>{{ tarefa.titulo }}</h3>
                 <p>{{ tarefa.descricao }}</p>
                 <p>Prazo: {{ tarefa.prazo }}</p>
-                <p>Prioridade: {{ tarefa.prioridade }}</p>
-                <p>Status: {{ tarefa.status }}</p>
+                <p>Prioridade: {{ tarefa.get_prioridade_display }}</p>
+                <p>Status: {{ tarefa.get_status_display }}</p>
+                <div class="tarefa-acoes">
+                    <a href="{% url 'detalhe_tarefa' tarefa.id %}" class="btn-ver">Ver</a>
+                    <a href="{% url 'editar_tarefa' tarefa.id %}" class="btn-editar">Editar</a>
+                    <form method="POST" action="{% url 'excluir_tarefa' tarefa.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-excluir">Excluir</button>
+                    </form>
+                </div>
             </div>
-            <hr>
         {% endfor %}
     {% else %}
-        <p>Nenhuma tarefa cadastrada ainda.</p>
+        <p>Nenhuma tarefa encontrada.</p>
     {% endif %}
-
 {% endblock %}
